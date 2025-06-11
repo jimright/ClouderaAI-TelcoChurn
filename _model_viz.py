@@ -7,7 +7,6 @@ from sklearn.ensemble import RandomForestRegressor
 import pickle
 
 from churnexplainer import CategoricalEncoder
-import cdsw, numpy
 filename="./models/champion/champion.pkl"
 #Load the model save earlier.
 loaded_model = pickle.load(open(filename, 'rb'))
@@ -28,25 +27,6 @@ def predict(args):
   df['monthlycharges']=pd.to_numeric(df['monthlycharges'])
   df['tenure']=pd.to_numeric(df['tenure'])
   df['totalcharges']=pd.to_numeric(df['totalcharges'])
-#  cols = (('gender', True),
-#        ('SeniorCitizen', True),
-#        ('Partner', True),
-#        ('Dependents', True),
-#        ('tenure', False),
-#        ('PhoneService', True),
-#        ('MultipleLines', True),
-#        ('InternetService', True),
-#        ('OnlineSecurity', True),
-#        ('OnlineBackup', True),
-#        ('DeviceProtection', True),
-#        ('TechSupport', True),
-#        ('StreamingTV', True),
-#        ('StreamingMovies', True),
-#        ('Contract', True),
-#        ('PaperlessBilling', True),
-#        ('PaymentMethod', True),
-#        ('MonthlyCharges', False),
-#        ('TotalCharges', False))
   cols = (('gender', True),
           ('seniorcitizen', True),
           ('partner', True),

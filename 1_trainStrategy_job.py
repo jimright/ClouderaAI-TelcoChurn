@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -30,18 +29,17 @@ PROJECT_NAME = os.getenv("CDSW_PROJECT")
 
 # Instantiate API Wrapper
 cml = CMLBootstrap(HOST, USERNAME, API_KEY, PROJECT_NAME)
-
 uservariables=cml.get_user()
-if uservariables['username'][-3] == '0':
-  DATABASE = "user"+uservariables['username'][-3:]
-else:
-  #DATABASE = uservariables['username']
-  DATABASE = 'acampos'
+
+# Set DATABASE from environment variable if available, otherwise use fallback to CAI username
+DATABASE = os.environ.get('DATABASE')
+if not DATABASE:
+    DATABASE = uservariables['username']
 
 runtimes=cml.get_runtimes()
 runtimes=runtimes['runtimes']
 runtimesdf = pd.DataFrame.from_dict(runtimes, orient='columns')
-runtimeid=runtimesdf.loc[(runtimesdf['editor'] == 'Workbench') & (runtimesdf['kernel'] == 'Python 3.7') & (runtimesdf['edition'] == 'Standard')]['id']
+runtimeid=runtimesdf.loc[(runtimesdf['editor'] == 'PBJ Workbench') & (runtimesdf['kernel'] == 'Python 3.10') & (runtimesdf['edition'] == 'Standard')]['id']
 id_rt=runtimeid.values[0]
 
 spark = SparkSession\
@@ -177,7 +175,6 @@ if len(sys.argv) == 2:
        
         project_id = cml.get_project()['id']
         params = {"projectId":project_id,"latestModelDeployment":True,"latestModelBuild":True}
-
 
         default_engine_details = cml.get_default_engine({})
         default_engine_image_id = default_engine_details["id"]
@@ -425,4 +422,4 @@ else:
 
           mlflow.end_run()
 
-          
+

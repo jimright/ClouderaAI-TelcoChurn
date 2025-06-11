@@ -1,4 +1,3 @@
-#you have to set the impala host (line 57)
 ## Part 0: Bootstrap File
 # You need to at the start of the project. It will install the requirements, creates the 
 # STORAGE environment variable and copy the data from 
@@ -27,12 +26,10 @@ run_time_suffix = datetime.datetime.now()
 run_time_suffix = run_time_suffix.strftime("%d%m%Y%H%M%S")
 
 # Set the setup variables needed by CMLBootstrap
-HOST = os.getenv("CDSW_API_URL").split(
-    ":")[0] + "://" + os.getenv("CDSW_DOMAIN")
-USERNAME = os.getenv("CDSW_PROJECT_URL").split(
-    "/")[6]  # args.username  # "vdibia"
-API_KEY = os.getenv("CDSW_API_KEY") 
-PROJECT_NAME = os.getenv("CDSW_PROJECT")  
+HOST = os.getenv("CDSW_API_URL").split(":")[0] + "://" + os.getenv("CDSW_DOMAIN")
+USERNAME = os.getenv("CDSW_PROJECT_URL").split("/")[6]  # args.username  # "vdibia"
+API_KEY = os.getenv("CDSW_API_KEY")
+PROJECT_NAME = os.getenv("CDSW_PROJECT")
 
 # Instantiate API Wrapper
 cml = CMLBootstrap(HOST, USERNAME, API_KEY, PROJECT_NAME)
@@ -52,5 +49,3 @@ except:
   storage_environment_params = {"STORAGE":storage}
   storage_environment = cml.create_environment_variable(storage_environment_params)
   os.environ["STORAGE"] = storage
-  
-
