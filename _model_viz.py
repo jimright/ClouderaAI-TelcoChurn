@@ -66,9 +66,9 @@ def predict(args):
   
  
 
-  return {'data': {'colnames': ['result'],
+  return {'response':{'data': {'colnames': ['result'],
   'coltypes': ['INT'],
-  'rows': outRows}}
+  'rows': outRows}}}
 
 #{
 #    "data": {
