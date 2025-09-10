@@ -10,7 +10,6 @@ detail [this blog post](https://blog.cloudera.com/visual-model-interpretability-
 The initial idea and code comes from the FFL Interpretability report which is now freely 
 available and you can read the full report [here](https://ff06-2020.fastforwardlabs.com/)
 
-![table_view](images/table_view.png)
 
 The goal is to build a classifier model using Logistic Regression to predict the churn 
 probability for a group of customers from a telecoms company. 
@@ -21,7 +20,10 @@ capability. We use this model  as a rest endpoint to allow enrichment of a DataV
 
 ### Initialize the Project
 There are a couple of steps needed at the start to configure the Project and Workspace 
-settings so each step will run successfully. You **must** set the `DATABASE` env variable under the Project Settings.  
+settings so each step will run successfully.  
+
+You **must** set the `DATABASE` env variable under the Project Settings. 
+
 You **must** run the project bootstrap before running other steps. 
 
 
