@@ -3,13 +3,12 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import average_precision_score
-from sklearn.metrics import mean_squared_error
 
 import mlflow
 import mlflow.sklearn
 import pickle
 #from your_data_loader import load_data
-from churnexplainer import CategoricalEncoder
+#from churnexplainer import CategoricalEncoder
 import datetime
 
 import time
