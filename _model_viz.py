@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
+import cml.models_v1 as models
 
 
 from sklearn.ensemble import RandomForestRegressor
 
 import pickle
 
-from churnexplainer import CategoricalEncoder
 filename="./models/champion/champion.pkl"
 #Load the model save earlier.
 loaded_model = pickle.load(open(filename, 'rb'))
@@ -15,7 +15,7 @@ filename="./models/champion/ce.pkl"
 ce = pickle.load(open(filename, 'rb'))
 
 
-
+@models.cml_model(metrics=True)
 def predict(args):
   df=pd.DataFrame(args["data"]["rows"])
   df.columns=args["data"]["colnames"]
