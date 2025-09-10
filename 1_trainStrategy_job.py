@@ -177,60 +177,10 @@ if len(sys.argv) == 2:
         default_engine_details = cml.get_default_engine({})
         default_engine_image_id = default_engine_details["id"]
 
-        example_model_input = {"streamingtv": "No", "monthlycharges": 70.35, "phoneservice": "No", "paperlessbilling": "No", "partner": "No", "onlinebackup": "No", "gender": "female", "contract": "Month-to-month", "totalcharges": 1397.475,
-                       "streamingmovies": "No", "deviceprotection": "No", "paymentmethod": "Bank transfer (automatic)", "tenure": 29, "dependents": "No", "onlinesecurity": "No", "multiplelines": "No", "internetservice": "DSL", "seniorcitizen": "No", "techsupport": "No"}
 
 
         try:
-                    
-                      # Create the YAML file for the model lineage
-            yaml_text = \
-                """"ModelOpsChurn_default":
-              hive_table_qualified_names:                # this is a predefined key to link to training data
-                - "default.telco_data_curated@cm"               # the qualifiedName of the hive_table object representing                
-              metadata:                                  # this is a predefined key for additional metadata
-                query: "select * from historical_data"   # suggested use case: query used to extract training data
-                training_file: "3_trainStrategy_job.py"       # suggested use case: training file used
-            """
 
-            with open('lineage.yml', 'w') as lineage:
-                lineage.write(yaml_text)
-            #read input file
-            fin = open("lineage.yml", "rt")
-            #read file contents to string
-            data = fin.read()
-            #replace all occurrences of the required string
-            data = data.replace('default',DATABASE)
-            #close the input file
-            fin.close()
-            #open the input file in write mode
-            fin = open("lineage.yml", "wt")
-            #overrite the input file with the resulting data
-            fin.write(data)
-            #close the file
-            fin.close()
-
-            model_id = cml.get_models(params)[0]['id']
-            latest_model = cml.get_model({"id": model_id, "latestModelDeployment": True, "latestModelBuild": True})
-
-            build_model_params = {
-              "modelId": latest_model['latestModelBuild']['modelId'],
-              "projectId": latest_model['latestModelBuild']['projectId'],
-              "targetFilePath": "_best_model_serve.py",
-              "targetFunctionName": "explain",
-              "engineImageId": default_engine_image_id,
-              "kernel": "python3",
-              "examples": latest_model['latestModelBuild']['examples'],
-              "cpuMillicores": 1000,
-              "memoryMb": 2048,
-              "nvidiaGPUs": 0,
-              "replicationPolicy": {"type": "fixed", "numReplicas": 1},
-              "environment": {},"runtimeId":int(id_rt)}
-
-            cml.rebuild_model(build_model_params)
-            sys.argv=[]
-            print('rebuilding...')
-            
             model_id = cml.get_models(params)[1]['id']
             latest_model = cml.get_model({"id": model_id, "latestModelDeployment": True, "latestModelBuild": True})
 
@@ -256,18 +206,6 @@ if len(sys.argv) == 2:
           
         except:
           
-                      # Create the YAML file for the model lineage
-            yaml_text = \
-                """"ModelOpsChurn_default":
-              hive_table_qualified_names:                # this is a predefined key to link to training data
-                - "default.telco_data_curated@cm"               # the qualifiedName of the hive_table object representing                
-              metadata:                                  # this is a predefined key for additional metadata
-                query: "select * from historical_data"   # suggested use case: query used to extract training data
-                training_file: "3_trainStrategy_job.py"       # suggested use case: training file used
-            """
-
-            with open('lineage.yml', 'w') as lineage:
-                lineage.write(yaml_text)
 
             #read input file
             fin = open("lineage.yml", "rt")
@@ -328,52 +266,6 @@ if len(sys.argv) == 2:
                     break
                 else:
                     print("Deploying ModelViz.....")
-                    time.sleep(10)
-
-
-            create_model_params = {
-                "projectId": project_id,
-                "name": "ModelOpsChurn_"+DATABASE,
-                "description": "Explain a given model prediction",
-                "visibility": "private",
-                "enableAuth": False,
-                "targetFilePath": "_best_model_serve.py",
-                "targetFunctionName": "explain",
-                "engineImageId": default_engine_image_id,
-                "kernel": "python3",
-                "examples": [
-                    {
-                        "request": example_model_input,
-                        "response": {}
-                    }],
-                "cpuMillicores": 1000,
-                "memoryMb": 2048,
-                "nvidiaGPUs": 0,
-                "replicationPolicy": {"type": "fixed", "numReplicas": 1},
-                "environment": {},"runtimeId":int(id_rt)}
-            
-            print("Creating new model")
-            
-            new_model_details = cml.create_model(create_model_params)
-            access_key = new_model_details["accessKey"]  # todo check for bad response
-            model_id = new_model_details["id"]
-
-            print("ModelOps Access Key:", access_key)
-
-            # Disable model_authentication
-            cml.set_model_auth({"id": model_id, "enableAuth": False})
-            sys.argv=[]
-
-            # Wait for the model to deploy.
-            is_deployed = False
-            while is_deployed == False:
-                model = cml.get_model({"id": str(
-                    new_model_details["id"]), "latestModelDeployment": True, "latestModelBuild": True})
-                if model["latestModelDeployment"]["status"] == 'deployed':
-                    print("Model is deployed")
-                    break
-                else:
-                    print("Deploying ModelOps.....")
                     time.sleep(10)
 
     except:
