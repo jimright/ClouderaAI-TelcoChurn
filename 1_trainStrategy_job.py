@@ -7,8 +7,7 @@ from sklearn.metrics import average_precision_score
 import mlflow
 import mlflow.sklearn
 import pickle
-#from your_data_loader import load_data
-#from churnexplainer import CategoricalEncoder
+from churnexplainer import CategoricalEncoder
 import datetime
 
 import time
