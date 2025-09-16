@@ -81,4 +81,4 @@ def predict(args):
 #    }
 #  }
 
-#cviz_rest('{"url":"https://modelservice.ml-9bf5fe7d-8fc.se-sandb.a465-9q4k.cloudera.site/model","accessKey":"mii9nai6k8cxs3szekaf2t72b5ppk137","colnames":["monthlycharges","totalcharges","tenure","gender","dependents","onlinesecurity","multiplelines","internetservice","seniorcitizen","techsupport", "contract","streamingmovies", "deviceprotection", "paymentmethod","streamingtv","phoneservice", "paperlessbilling","partner", "onlinebackup"],"response_colname":"result"}')
+#cviz_rest('{"url":"https://modelservice.ml-9bf5fe7d-8fc.se-sandb.a465-9q4k.cloudera.site/model","accessKey":"mii9nai6k8cxs3szekaf2t72b5ppk137","colnames":["monthlycharges","totalcharges","tenure","gender","dependents","onlinesecurity","multiplelines","internetservice","seniorcitizen","techsupport", "contract","streamingmovies", "deviceprotection", "paymentmethod","streamingtv","phoneservice", "paperlessbilling","partner", "onlinebackup"],"response_colname":"result","config":{"response_key":"response.prediction"}}')
