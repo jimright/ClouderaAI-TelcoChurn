@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
+import cml.models_v1 as models
 
 
 from sklearn.ensemble import RandomForestRegressor
 
 import pickle
 
-from churnexplainer import CategoricalEncoder
 filename="./models/champion/champion.pkl"
 #Load the model save earlier.
 loaded_model = pickle.load(open(filename, 'rb'))
@@ -15,7 +15,8 @@ filename="./models/champion/ce.pkl"
 ce = pickle.load(open(filename, 'rb'))
 
 
-
+#@models.cml_model(metrics=True)
+@models.cml_model(metrics=False) # Maintain compatibility with default cdw_dataviz image
 def predict(args):
   df=pd.DataFrame(args["data"]["rows"])
   df.columns=args["data"]["colnames"]
@@ -81,4 +82,10 @@ def predict(args):
 #    }
 #  }
 
+##@models.cml_model(metrics=False)
 #cviz_rest('{"url":"https://modelservice.ml-9bf5fe7d-8fc.se-sandb.a465-9q4k.cloudera.site/model","accessKey":"mii9nai6k8cxs3szekaf2t72b5ppk137","colnames":["monthlycharges","totalcharges","tenure","gender","dependents","onlinesecurity","multiplelines","internetservice","seniorcitizen","techsupport", "contract","streamingmovies", "deviceprotection", "paymentmethod","streamingtv","phoneservice", "paperlessbilling","partner", "onlinebackup"],"response_colname":"result"}')
+
+#@models.cml_model(metrics=True)
+#needs upgrade on cdw dataviz image
+#image: container.repo.cloudera.com/cloudera/cdv/cdwdataviz:7.2.8_b4ae04e75
+#cviz_rest('{"url":"https://modelservice.ml-9bf5fe7d-8fc.se-sandb.a465-9q4k.cloudera.site/model","accessKey":"mii9nai6k8cxs3szekaf2t72b5ppk137","colnames":["monthlycharges","totalcharges","tenure","gender","dependents","onlinesecurity","multiplelines","internetservice","seniorcitizen","techsupport", "contract","streamingmovies", "deviceprotection", "paymentmethod","streamingtv","phoneservice", "paperlessbilling","partner", "onlinebackup"],"response_colname":"result","config":{"response_key":"response.prediction"}}')
